@@ -1,0 +1,5 @@
+name: Autoload benchmark
+type: module
+description: 'Benchmarks for different core autoloaders.'
+package: Development
+core: 8.x
