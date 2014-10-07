@@ -5,6 +5,7 @@ namespace Drupal\autobench;
 
 use Composer\Autoload\ClassLoader;
 use Drupal\autobench\ClassLoader\DrupalClassLoader;
+use Drupal\autobench\Filesystem\TmpFilesystem;
 use Drupal\autobench\Generator\ModuleGenerator;
 
 /**
@@ -35,8 +36,9 @@ class Runner {
   public function run($useClassMap, $useDrupalLoader) {
 
     // Prepare the virtual filesystem.
-    $filesystem = Filesystem\StreamWrapper::register('test');
-    $modules = $this->generator->generateModules();
+    $filesystem = new TmpFilesystem();
+    $pathPrefix = make_tmp() . '/modules/';
+    $modules = $this->generator->generateModules($pathPrefix);
     $classFiles = $this->generator->generateModuleClassFiles($filesystem, $modules);
     $classes = array_keys($classFiles);
     shuffle($classes);
@@ -67,7 +69,7 @@ class Runner {
     $duration = $t1 - $t0;
 
     // Clean up and return.
-    stream_wrapper_unregister('test');
+    $filesystem->cleanUp();
     return $duration;
   }
 

@@ -9,7 +9,7 @@ use Drupal\autobench\Util;
 /**
  *
  */
-class VirtualFilesystem {
+class VirtualFilesystem implements FilesystemInterface {
 
   /**
    * @var VirtualFilesystem[]
@@ -26,56 +26,40 @@ class VirtualFilesystem {
    */
   protected $knownPaths = array();
 
+  /**
+   * The protocol, e.g. "test" for "test://.." file paths.
+   * This is only used for the cleanUp() method.
+   *
+   * @var string
+   */
+  private $protocol;
+
   const NOTHING = FALSE;
   const DIR = '(dir)';
 
   /**
-   *
+   * @param string $protocol
    */
-  function __construct() {
+  function __construct($protocol) {
     $this->instanceKey = Util::randomString();
     self::$instances[$this->instanceKey] = $this;
+    $this->protocol;
   }
 
   /**
+   * Adds a file and the directory, if not exists.
+   *
    * @param string $file
-   * @param string $class
+   * @param string $contents
+   *
    * @throws \Exception
    */
-  function addClassFile($file, $class) {
+  function addFile($file, $contents) {
     if (!empty($this->knownPaths[$file])) {
-      throw new \Exception("File '$file' already exists. Cannot create class file for '$class' at this path.");
+      throw new \Exception("File '$file' already exists.");
     }
     $this->addKnownDir(dirname($file));
-    $this->knownPaths[$file] = $this->buildClassFileContents($class);
-  }
-
-  /**
-   * @param $class
-   *   Class name with or without namespace.
-   *
-   * @return string
-   *   PHP code for the class file
-   */
-  protected function buildClassFileContents($class) {
-    if (FALSE === ($pos = strrpos($class, '\\'))) {
-      // Class without namespace.
-      return <<<EOT
-<?php
-class $class {}
-
-EOT;
-    }
-
-    // Class without namespace.
-    $namespace = substr($class, 0, $pos);
-    $classname = substr($class, $pos + 1);
-    return <<<EOT
-<?php
-namespace $namespace;
-class $classname {}
-
-EOT;
+    $this->knownPaths[$file] = $contents;
   }
 
   /**
@@ -93,7 +77,10 @@ EOT;
   }
 
   /**
+   * Returns the equivalent of scandir().
+   *
    * @param string $dir
+   *
    * @return array|bool
    */
   function getDirContents($dir) {
@@ -163,5 +150,12 @@ EOT;
     }
 
     return $this->knownPaths[$path];
+  }
+
+  /**
+   * Unregister the stream wrapper, or delete the tmp folder.
+   */
+  function cleanUp() {
+    stream_wrapper_unregister($this->protocol);
   }
 }
