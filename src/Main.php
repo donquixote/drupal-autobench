@@ -88,7 +88,7 @@ class Main {
    *
    * @return string[]
    */
-  protected function generateModules($n = 1, $strlen = 10) {
+  protected function generateModules($n = 200, $strlen = 10) {
     $modules = array();
     for ($i = 0; $i < $n; ++$i) {
       $moduleName = Util::randomIdentifier($strlen);
@@ -105,7 +105,7 @@ class Main {
    *
    * @return array
    */
-  protected function generateModuleClassFiles($filesystem, $modules, $nClassesPerModule = 2000) {
+  protected function generateModuleClassFiles($filesystem, $modules, $nClassesPerModule = 20) {
     $classFiles = array();
     foreach ($modules as $module => $moduleDir) {
       for ($i = 0; $i < $nClassesPerModule; ++$i) {
