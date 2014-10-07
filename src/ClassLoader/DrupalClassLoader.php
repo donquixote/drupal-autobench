@@ -403,7 +403,7 @@ class DrupalClassLoader {
    * @param string $class
    *   The name of the class.
    *
-   * @return bool|NULL
+   * @return bool|null
    *   TRUE if loaded, NULL otherwise.
    */
   public function loadClass($class) {
