@@ -412,6 +412,8 @@ class DrupalClassLoader {
 
       return TRUE;
     }
+
+    return NULL;
   }
 
   /**

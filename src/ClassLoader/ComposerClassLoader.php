@@ -372,6 +372,8 @@ class ComposerClassLoader {
 
       return TRUE;
     }
+
+    return NULL;
   }
 
   /**
