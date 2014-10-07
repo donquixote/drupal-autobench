@@ -158,4 +158,4 @@ EOT;
 
     return $this->knownPaths[$path];
   }
-} 
+}
