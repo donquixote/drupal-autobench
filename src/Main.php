@@ -25,7 +25,7 @@ class Main {
     ) as $scenario) {
       list($useClassMap, $useDrupalLoader) = $scenario;
       $duration = $this->run($useClassMap, $useDrupalLoader);
-      $message = $duration . ' ms';
+      $message = $duration . ' seconds';
       $message .= $useClassMap
         ? ' with classmap'
         : ' without classmap';
