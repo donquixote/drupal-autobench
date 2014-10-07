@@ -51,7 +51,7 @@ class Runner {
     }
     else {
       foreach ($modules as $module => $moduleDir) {
-        $loader->addPsr4('Drupal\\' . $module . '\\', $moduleDir . '/lib');
+        $loader->addPsr4('Drupal\\' . $module . '\\', $moduleDir . '/src');
       }
     }
 

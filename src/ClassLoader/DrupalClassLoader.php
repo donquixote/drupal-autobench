@@ -89,7 +89,7 @@ class DrupalClassLoader {
    *     'D' => array(
    *       'Drupal\Core\\' => array(DRUPAL_ROOT . '/core/lib'),
    *       'Drupal\Component\\' => array(DRUPAL_ROOT . '/core/lib'),
-   *       'Drupal\system\\' => array(DRUPAL_ROOT . '/core/modules/system/lib'),
+   *       'Drupal\system\\' => array(DRUPAL_ROOT . '/core/modules/system/src'),
    *     ),
    *     'S' => array(
    *       'Symfony\Component\Routing\\' => array(..),

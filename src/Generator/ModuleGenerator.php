@@ -39,7 +39,7 @@ class ModuleGenerator {
       for ($i = 0; $i < $nClassesPerModule; ++$i) {
         $fragments = array(Util::randomIdentifier(7), Util::randomIdentifier(13));
         $class = 'Drupal\\' . $module . '\\' . implode('\\', $fragments);
-        $file = $moduleDir . '/lib/' . implode('/', $fragments) . '.php';
+        $file = $moduleDir . '/src/' . implode('/', $fragments) . '.php';
         $filesystem->addClassFile($file, $class);
         $classFiles[$class] = $file;
       }
