@@ -24,7 +24,9 @@ class Main {
       array(TRUE, TRUE),
     ) as $scenario) {
       list($useClassMap, $useDrupalLoader) = $scenario;
+
       $duration = $this->run($useClassMap, $useDrupalLoader);
+
       $message = $duration . ' seconds';
       $message .= $useClassMap
         ? ' with classmap'
@@ -57,6 +59,7 @@ class Main {
     $loader = $useDrupalLoader
       ? new DrupalClassLoader()
       : new ClassLoader();
+
     if ($useClassMap) {
       $loader->addClassMap($classFiles);
     }
