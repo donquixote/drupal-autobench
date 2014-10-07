@@ -2,8 +2,8 @@
 
 namespace Drupal\autobench;
 
+use Composer\Autoload\ClassLoader;
 use Drupal\autobench\ClassLoader\DrupalClassLoader;
-use Drupal\autobench\ClassLoader\ComposerClassLoader;
 use Drupal\autobench\Filesystem\VirtualFilesystem;
 
 class Main {
@@ -56,7 +56,7 @@ class Main {
     // Prepare the class loader.
     $loader = $useDrupalLoader
       ? new DrupalClassLoader()
-      : new ComposerClassLoader();
+      : new ClassLoader();
     if ($useClassMap) {
       $loader->addClassMap($classFiles);
     }
