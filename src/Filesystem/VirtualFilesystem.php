@@ -6,6 +6,9 @@ namespace Drupal\autobench\Filesystem;
 
 use Drupal\autobench\Util;
 
+/**
+ *
+ */
 class VirtualFilesystem {
 
   /**
@@ -26,6 +29,9 @@ class VirtualFilesystem {
   const NOTHING = FALSE;
   const DIR = '(dir)';
 
+  /**
+   *
+   */
   function __construct() {
     $this->instanceKey = Util::randomString();
     self::$instances[$this->instanceKey] = $this;
