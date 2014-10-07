@@ -446,17 +446,14 @@ class DrupalClassLoader {
       $predictor = $first . $class[self::PREDICTOR_INDEX];
       if (isset($this->prefixLengthsPsr4[$predictor])) {
         foreach ($this->prefixLengthsPsr4[$predictor] as $prefix => $length) {
-          # echo '.';
           if (0 === strpos($class, $prefix)) {
             foreach ($this->prefixDirsPsr4[$prefix] as $dir) {
               if (file_exists($file = $dir . DIRECTORY_SEPARATOR . substr($logicalPathPsr4, $length))) {
-                # echo "\n";
                 return $file;
               }
             }
           }
         }
-        # echo "\n";
       }
     }
 
