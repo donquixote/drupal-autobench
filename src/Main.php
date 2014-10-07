@@ -42,12 +42,12 @@ class Main {
 
       $duration = $this->runner->run($useClassMap, $useDrupalLoader);
 
-      $message = $duration . ' seconds';
+      $message = number_format($duration, 4) . ' seconds';
       $message .= $useClassMap
         ? ' with classmap'
         : ' without classmap';
       $message .= $useDrupalLoader
-        ? ' with Drupal-optimized loader'
+        ? ' with Drupal-optimized PSR-4 loader'
         : ' with Composer loader';
       drush_log($message, 'ok');
     }
