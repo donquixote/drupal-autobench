@@ -1,1 +1,12 @@
 <?php
+
+/**
+ * @return \Drupal\autobench\DIC\ServiceContainer
+ */
+function autobench() {
+  /** @var \Drupal\autobench\DIC\ServiceContainer|null $services */
+  static $services;
+  return isset($services)
+    ? $services
+    : $services = new \Drupal\autobench\DIC\ServiceContainer();
+}

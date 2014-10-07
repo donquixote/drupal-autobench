@@ -1,7 +1,5 @@
 <?php
 
-use Drupal\autobench\Main;
-
 /**
  * Implements hook_drush_command()
  */
@@ -16,7 +14,6 @@ function autobench_drush_command() {
  * Drush callback for "drush autobench"
  */
 function drush_autobench() {
-  $main = new Main();
-  $main->runAll();
+  autobench()->main->runAll();
 }
 
