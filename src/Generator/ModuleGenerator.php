@@ -26,7 +26,7 @@ class ModuleGenerator {
    * @return string[]
    *   Format: array($moduleName => $moduleDir)
    */
-  function generateModules($pathSuffix, $n = 200, $strlen = 10) {
+  function generateModules($pathSuffix, $n, $strlen = 10) {
     $modules = array();
     for ($i = 0; $i < $n; ++$i) {
       $moduleName = Util::randomIdentifier($strlen);
@@ -46,7 +46,7 @@ class ModuleGenerator {
    *
    * @return array
    */
-  public function generateModuleClassFiles($filesystem, $modules, $nClassesPerModule = 20) {
+  public function generateModuleClassFiles($filesystem, $modules, $nClassesPerModule) {
     $classFiles = array();
     foreach ($modules as $module => $moduleDir) {
       for ($i = 0; $i < $nClassesPerModule; ++$i) {

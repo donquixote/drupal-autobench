@@ -26,51 +26,46 @@ class Runner {
   }
 
   /**
-   * @param bool $useClassMap
-   * @param bool $useDrupalLoader
-   *
-   * @return float
+   * @param \Drupal\autobench\Scenario $scenario
    *
    * @throws \Exception
+   * @return float
+   *   Duration for one class load.
    */
-  public function run($useClassMap, $useDrupalLoader) {
+  public function run(Scenario $scenario) {
+
+    $nModules = 200;
+    $nClassesPerModule = 10;
 
     // Prepare the virtual filesystem.
     $filesystem = new TmpFilesystem();
     $pathPrefix = make_tmp() . '/modules/';
-    $modules = $this->generator->generateModules($pathPrefix);
-    $classFiles = $this->generator->generateModuleClassFiles($filesystem, $modules);
+    $modules = $this->generator->generateModules($pathPrefix, $nModules);
+    $classFiles = $this->generator->generateModuleClassFiles($filesystem, $modules, $nClassesPerModule);
     $classes = array_keys($classFiles);
     shuffle($classes);
 
     // Prepare the class loader.
-    $loader = $useDrupalLoader
-      ? new DrupalClassLoader()
-      : new ClassLoader();
-
-    if ($useClassMap) {
-      $loader->addClassMap($classFiles);
-    }
-    else {
-      foreach ($modules as $module => $moduleDir) {
-        $loader->addPsr4('Drupal\\' . $module . '\\', $moduleDir . '/src');
-      }
-    }
+    $loader = $scenario->buildLoader($modules, $classFiles);
 
     // Run benchmarks.
     $t0 = microtime(TRUE);
     foreach ($classes as $class) {
       $loader->loadClass($class);
-      if (!class_exists($class, FALSE)) {
-        throw new \Exception("Class $class was not loaded.");
-      }
     }
     $t1 = microtime(TRUE);
     $duration = $t1 - $t0;
 
+    // Verify that all classes were loaded.
+    foreach ($classes as $class) {
+      if (!class_exists($class, FALSE)) {
+        throw new \Exception("Class $class was not loaded.");
+      }
+    }
+
     // Clean up and return.
     $filesystem->cleanUp();
-    return $duration;
+    return $duration / $nClassesPerModule / $nModules;
   }
 
 } 
